@@ -15,11 +15,6 @@ def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
     return 0
 
 
-@pytest.fixture()
-def input_data():
-    return []
-
-
 def test(input_data) -> None:
     assert compute(input_data, testing=True) == 150
 
