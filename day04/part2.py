@@ -60,6 +60,7 @@ def create_boards(lines):
 
 
 def check_bingo(game_boards, numbers):
+    winning_boards = []
     for i in range(len(numbers)):
         for idx, board in enumerate(game_boards):
             called_numbers = numbers[:i]
@@ -68,20 +69,22 @@ def check_bingo(game_boards, numbers):
             row_win = board.check_row_for_bingo(called_numbers)
             col_win = board.check_col_for_bingo(called_numbers)
             if row_win or col_win:
-                return idx, numbers[:i]
-            else:
-                continue
+                already_won = any(board.board_array == w_board[0].board_array for w_board in winning_boards)
+                if not already_won:
+                    winning_boards.append([board, numbers[:i]])
+    return winning_boards[-1][0], winning_boards[-1][1]
 
 
 def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
     lines = s if testing and type(s) == list[str] else s.splitlines()
     game_boards, numbers = create_boards(lines)
     winning_board, called_numbers = check_bingo(game_boards, numbers)
-    return game_boards[winning_board].calculate_score(called_numbers)
+
+    return winning_board.calculate_score(called_numbers)
 
 
 def test(input_data) -> None:
-    assert compute(input_data, testing=True) == 4512
+    assert compute(input_data, testing=True) == 1924
 
 
 def main() -> int:
