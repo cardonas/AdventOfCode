@@ -11,12 +11,15 @@ INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
 
 def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
     lines = s if testing and type(s) == list[str] else s.splitlines()
-    # TODO: implement solution here!
-    return 0
+    numbers = []
+    for line in lines:
+        _, end = line.split(' | ')
+        numbers.extend(end.split())
+    return sum(len(seg) in (2, 3, 4, 7) for seg in numbers)
 
 
 def test(input_data) -> None:
-    assert compute(input_data, testing=True) == 150
+    assert compute(input_data, testing=True) == 26
 
 
 def main() -> int:
