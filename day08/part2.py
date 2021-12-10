@@ -9,6 +9,7 @@ from support import timing
 INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
 
 
+# TODO: Clean up code to be more readable adn make sense.
 def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
     lines = s if testing and type(s) == list[str] else s.splitlines()
     total = 0

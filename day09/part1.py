@@ -1,5 +1,6 @@
 from __future__ import annotations
 import argparse
+from collections import Generator, defaultdict
 from pathlib import Path
 from typing import Optional, Union
 
@@ -9,14 +10,31 @@ from support import timing
 INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
 
 
+
+def adjacent(x: int, y: int) -> Generator[tuple[int, int], None, None]:
+    yield x + 1, y
+    yield x - 1, y
+    yield x, y + 1
+    yield x, y - 1
+
+
 def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
+    coords = defaultdict(lambda: 9)
+
     lines = s if testing and type(s) == list[str] else s.splitlines()
-    # TODO: implement solution here!
-    return 0
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            coords[x, y] = int(char)
+
+    return sum(
+        n + 1
+        for (x, y), n in tuple(coords.items())
+        if all(coords[point] > n for point in adjacent(x, y))
+    )
 
 
 def test(input_data) -> None:
-    assert compute(input_data, testing=True) == 150
+    assert compute(input_data, testing=True) == 15
 
 
 def main() -> int:
