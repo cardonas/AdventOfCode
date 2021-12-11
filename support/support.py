@@ -87,9 +87,12 @@ def submit_solution() -> int:
     args = parser.parse_args()
 
     year, day = get_cwd_year_day()
-    answer = int(sys.stdin.read())
+    answer_w_timing = sys.stdin.read()
+    answer = sys.stdin.read().split('\n')[0]
+    print(answer)
 
-    print(f'answer: {answer}')
+    print(f'answer: {answer_w_timing}')
+
     params = urllib.parse.urlencode({'level': args.part, 'answer': answer})
     req = urllib.request.Request(
         f'https://advnetofcode.com/{year}/day/{day}/answer',
@@ -116,4 +119,4 @@ def submit_solution() -> int:
 
 
 if __name__ == '__main__':
-    raise SystemExit(download_input())
+    raise SystemExit(submit_solution())
