@@ -1,22 +1,23 @@
 from __future__ import annotations
+
 import argparse
 from pathlib import Path
-from typing import Optional, Union
 
-import pytest
 from support import timing
 
 INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
 
 
-def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
-    lines = s if testing and type(s) == list[str] else s.splitlines()
+def compute(s: str) -> int:
+    lines = s.splitlines()
+    for line in lines:
+        pass
     # TODO: implement solution here!
     return 0
 
 
-def test(input_data) -> None:
-    assert compute(input_data, testing=True) == -3
+def test(input_data: str) -> None:
+    assert compute(input_data) == 150
 
 
 def main() -> int:
