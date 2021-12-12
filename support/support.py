@@ -7,9 +7,11 @@ import re
 import sys
 import time
 import urllib
+from pathlib import Path
 from urllib import error, request, parse
 from typing import Generator
 
+home_path = Path(__file__).parents[1]
 
 @contextlib.contextmanager
 def timing(name: str = '') -> Generator[None, None, None]:
@@ -29,7 +31,8 @@ def timing(name: str = '') -> Generator[None, None, None]:
 
 
 def _get_cookie_header() -> dict[str, str]:
-    with open('../.env') as f:
+    print(home_path)
+    with open(home_path.joinpath('.env')) as f:
         contents = f.read()
     return {'Cookie': contents}
 
