@@ -60,7 +60,7 @@ def download_input() -> int:
 
     year, day = get_year_day()
 
-    for _ in range(5):
+    for i in range(5):
         try:
             s = get_input(year, day)
         except urllib.error.URLError as e:
@@ -78,9 +78,11 @@ def download_input() -> int:
     if len(lines) > 10:
         for line in lines[:10]:
             print(line)
+        print('...')
     else:
         print(lines[0][:80])
-    print('...')
+        print('...')
+
     return 0
 
 
