@@ -8,6 +8,8 @@ from support import timing
 
 INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
 
+# TODO: Complete part 2 of Day 3
+
 
 def compute(input_str: str) -> int:
     lines = input_str.splitlines()
