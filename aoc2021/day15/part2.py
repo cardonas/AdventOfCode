@@ -10,6 +10,12 @@ from support import timing
 INPUT_TXT = Path(__file__).parent.joinpath("input.txt")
 
 
+def interesting_mod(n: int) -> int:
+    while n > 9:
+        n -= 9
+    return n
+
+
 def next_p(x: int, y: int) -> Generator[tuple[int, int], None, None]:
     yield x - 1, y
     yield x, y - 1
@@ -19,9 +25,17 @@ def next_p(x: int, y: int) -> Generator[tuple[int, int], None, None]:
 
 def compute(s: str) -> int:
     coords = {}
+    lines = s.splitlines()
+    width = len(lines[0])
+    height = len(lines)
+
     for y, line in enumerate(s.splitlines()):
         for x, c in enumerate(line):
-            coords[(x, y)] = int(c)
+            for y_i in range(5):
+                for x_i in range(5):
+                    coords[(x_i * height + x, y_i * width + y)] = interesting_mod(
+                        int(c) + x_i + y_i
+                    )
 
     last_x, last_y = max(coords)
     best_at: dict[tuple[int, int], int] = {}
@@ -42,11 +56,12 @@ def compute(s: str) -> int:
         for cand in next_p(*last_coord):
             if cand in coords:
                 heapq.heappush(todo, (cost + coords[cand], cand))
-    return best_at[(last_x, last_y)]
+
+    raise AssertionError("unreachable code")
 
 
 def test(input_data: str) -> None:
-    assert compute(input_data) == 40
+    assert compute(input_data) == 315
 
 
 def main() -> int:
