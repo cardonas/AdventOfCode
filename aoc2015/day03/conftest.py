@@ -4,12 +4,12 @@ from collections import namedtuple
 
 from pytest import fixture
 
-DATA = namedtuple('DATA', ['input_str', 'expected'])
+DATA = namedtuple("DATA", ["input_str", "expected"])
 
 CONDITIONS = [
-    DATA(input_str='''>''', expected=2),
-    DATA(input_str='''^>v<''', expected=4),
-    DATA(input_str='''^v^v^v^v^v''', expected=2)
+    DATA(input_str=""">""", expected=2),
+    DATA(input_str="""^>v<""", expected=4),
+    DATA(input_str="""^v^v^v^v^v""", expected=2),
 ]
 
 

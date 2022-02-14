@@ -1,5 +1,5 @@
 def parse_input() -> list[int]:
-    with open('input.txt', 'r') as f:
+    with open("input.txt", "r") as f:
         return [int(x) for x in f.read().splitlines()]
 
 
@@ -42,9 +42,8 @@ def main(inputs):
     print(part2(inputs))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sample = False
     sample_inputs = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
     inputs = sample_inputs if sample else parse_input()
     raise SystemExit(main(inputs))
-

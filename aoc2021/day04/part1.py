@@ -5,16 +5,18 @@ from typing import Optional, Union
 
 from support import timing
 
-INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
+INPUT_TXT = Path(__file__).parent.joinpath("input.txt")
 
 
-class GameBoard():
+class GameBoard:
     def __init__(self, board_array: list[list[str]]):
         self.board_array = board_array
         self.bingo = False
 
     def check_row_for_bingo(self, called_numbers):
-        for i, y in enumerate([x in called_numbers for x in item] for item in self.board_array):
+        for i, y in enumerate(
+            [x in called_numbers for x in item] for item in self.board_array
+        ):
             all_true = sum(bool(j) for j in y)
             if all_true == 5:
                 self.bingo = True
@@ -46,14 +48,14 @@ def create_boards(lines):
     board_array = []
     for idx, line in enumerate(lines):
         if idx == 0:
-            numbers = line.split(',')
+            numbers = line.split(",")
         elif not line:
             if not board_array:
                 continue
             game_boards.append(GameBoard(board_array=board_array))
             board_array = []
         else:
-            board_array.append(line.strip().replace('  ', ' ').split(' '))
+            board_array.append(line.strip().replace("  ", " ").split(" "))
     if board_array:
         game_boards.append(GameBoard(board_array=board_array))
     return game_boards, numbers
@@ -63,7 +65,7 @@ def check_bingo(game_boards, numbers):
     for i in range(len(numbers)):
         for idx, board in enumerate(game_boards):
             called_numbers = numbers[:i]
-            if called_numbers == '':
+            if called_numbers == "":
                 continue
             row_win = board.check_row_for_bingo(called_numbers)
             col_win = board.check_col_for_bingo(called_numbers)
@@ -86,7 +88,7 @@ def test(input_data) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('data_file', nargs='?', default=INPUT_TXT)
+    parser.add_argument("data_file", nargs="?", default=INPUT_TXT)
     args = parser.parse_args()
     with open(args.data_file) as f, timing():
         print(compute(f.read()))
@@ -94,5 +96,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

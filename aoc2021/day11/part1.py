@@ -7,7 +7,7 @@ from typing import Generator, Optional, Union
 import pytest
 from support import timing
 
-INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
+INPUT_TXT = Path(__file__).parent.joinpath("input.txt")
 
 
 def adjacent(x: int, y: int) -> Generator[tuple[int, int], None, None]:
@@ -52,7 +52,7 @@ def test(input_data) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('data_file', nargs='?', default=INPUT_TXT)
+    parser.add_argument("data_file", nargs="?", default=INPUT_TXT)
     args = parser.parse_args()
     with open(args.data_file) as f, timing():
         print(compute(f.read()))
@@ -60,5 +60,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

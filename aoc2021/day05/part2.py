@@ -7,16 +7,16 @@ from typing import Optional, Union
 
 from support import timing
 
-INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
+INPUT_TXT = Path(__file__).parent.joinpath("input.txt")
 
 
 def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
     lines = s if testing and type(s) == list[s] else s.splitlines()
     points: Counter[tuple[int, int]] = Counter()
     for line in lines:
-        start, end = line.split(' -> ')
-        point_x1, point_y1 = start.split(',')
-        point_x2, point_y2 = end.split(',')
+        start, end = line.split(" -> ")
+        point_x1, point_y1 = start.split(",")
+        point_x2, point_y2 = end.split(",")
         x1, y1, x2, y2 = int(point_x1), int(point_y1), int(point_x2), int(point_y2)
 
         if x1 < x2:
@@ -47,7 +47,7 @@ def test(input_data) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('data_file', nargs='?', default=INPUT_TXT)
+    parser.add_argument("data_file", nargs="?", default=INPUT_TXT)
     args = parser.parse_args()
     with open(args.data_file) as f, timing():
         print(compute(f.read()))
@@ -55,5 +55,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

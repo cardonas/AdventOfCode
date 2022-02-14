@@ -3,7 +3,7 @@ from pytest import fixture
 
 @fixture()
 def input_data():
-    return '''0,9 -> 5,9
+    return """0,9 -> 5,9
 8,0 -> 0,8
 9,4 -> 3,4
 2,2 -> 2,1
@@ -13,4 +13,4 @@ def input_data():
 3,4 -> 1,4
 0,0 -> 8,8
 5,5 -> 8,2
-'''
+"""

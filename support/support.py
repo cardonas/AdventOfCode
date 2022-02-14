@@ -15,30 +15,30 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 @contextlib.contextmanager
-def timing(name: str = '') -> Generator[None, None, None]:
+def timing(name: str = "") -> Generator[None, None, None]:
     before = time.time()
     try:
         yield
     finally:
         after = time.time()
         t = (after - before) * 1000
-        unit = 'ms'
+        unit = "ms"
         if t < 100:
             t *= 1000
-            unit = 'μs'
+            unit = "μs"
         if name:
-            name = f' ({name})'
-        print(f'> {int(t)} {unit}{name}', file=sys.stderr, flush=True)
+            name = f" ({name})"
+        print(f"> {int(t)} {unit}{name}", file=sys.stderr, flush=True)
 
 
 def _get_cookie_headers() -> dict[str, str]:
-    with open(os.path.join(HERE, '../.env')) as f:
+    with open(os.path.join(HERE, "../.env")) as f:
         contents = f.read().strip()
-    return {'Cookie': contents}
+    return {"Cookie": contents}
 
 
 def get_input(year: int, day: int) -> str:
-    url = f'https://adventofcode.com/{year}/day/{day}/input'
+    url = f"https://adventofcode.com/{year}/day/{day}/input"
     req = urllib.request.Request(url, headers=_get_cookie_headers())
     return urllib.request.urlopen(req).read().decode()
 
@@ -48,10 +48,10 @@ def get_year_day() -> tuple[int, int]:
     day_s = os.path.basename(cwd)
     year_s = os.path.basename(os.path.dirname(cwd))
 
-    if not day_s.startswith('day') or not year_s.startswith('aoc'):
-        raise AssertionError(f'unexpected working dir: {cwd}')
+    if not day_s.startswith("day") or not year_s.startswith("aoc"):
+        raise AssertionError(f"unexpected working dir: {cwd}")
 
-    return int(year_s[len('aoc'):]), int(day_s[len('day'):])
+    return int(year_s[len("aoc") :]), int(day_s[len("day") :])
 
 
 def download_input() -> int:
@@ -64,29 +64,29 @@ def download_input() -> int:
         try:
             s = get_input(year, day)
         except urllib.error.URLError as e:
-            print(f'zzz: not ready yet: {e}')
+            print(f"zzz: not ready yet: {e}")
             time.sleep(1)
         else:
             break
     else:
-        raise SystemExit('timed out after attempting many times')
+        raise SystemExit("timed out after attempting many times")
 
-    with open('input.txt', 'w') as f:
+    with open("input.txt", "w") as f:
         f.write(s)
 
     lines = s.splitlines()
     if len(lines) > 10:
         for line in lines[:10]:
             print(line)
-        print('...')
+        print("...")
     else:
         print(lines[0][:80])
-        print('...')
+        print("...")
 
     return 0
 
 
-TOO_QUICK = re.compile('You gave an answer too recently.*to wait.')
+TOO_QUICK = re.compile("You gave an answer too recently.*to wait.")
 WRONG = re.compile(r"That's not the right answer.*?\.")
 RIGHT = "That's the right answer!"
 ALREADY_DONE = re.compile(r"You don't seem to be solving.*\?")
@@ -94,18 +94,18 @@ ALREADY_DONE = re.compile(r"You don't seem to be solving.*\?")
 
 def submit_solution() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('--part', type=int, required=True)
+    parser.add_argument("--part", type=int, required=True)
     args = parser.parse_args()
 
     year, day = get_year_day()
     answer = int(sys.stdin.read())
 
-    print(f'answer: {answer}')
+    print(f"answer: {answer}")
 
-    params = urllib.parse.urlencode({'level': args.part, 'answer': answer})
+    params = urllib.parse.urlencode({"level": args.part, "answer": answer})
     req = urllib.request.Request(
-        f'https://adventofcode.com/{year}/day/{day}/answer',
-        method='POST',
+        f"https://adventofcode.com/{year}/day/{day}/answer",
+        method="POST",
         data=params.encode(),
         headers=_get_cookie_headers(),
     )
@@ -116,11 +116,11 @@ def submit_solution() -> int:
     for error_regex in (WRONG, TOO_QUICK, ALREADY_DONE):
         error_match = error_regex.search(contents)
         if error_match:
-            print(f'\033[41m{error_match[0]}\033[m')
+            print(f"\033[41m{error_match[0]}\033[m")
             return 1
 
     if RIGHT in contents:
-        print(f'\033[42m{RIGHT}\033[m')
+        print(f"\033[42m{RIGHT}\033[m")
         return 0
     else:
         # unexpected output?

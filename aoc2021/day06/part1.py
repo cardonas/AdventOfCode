@@ -7,11 +7,11 @@ from typing import Optional, Union
 
 from support import timing
 
-INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
+INPUT_TXT = Path(__file__).parent.joinpath("input.txt")
 
 
 def compute(s: Union[list[str], str], days: int, testing: Optional[bool] = None) -> int:
-    lines = s if testing and type(s) == list[str] else s.split(',')
+    lines = s if testing and type(s) == list[str] else s.split(",")
     counts = Counter([int(x) for x in lines])
     for _ in range(days):
         counts2 = Counter({6: counts[0], 8: counts[0]})
@@ -26,7 +26,7 @@ def test(input_data) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('data_file', nargs='?', default=INPUT_TXT)
+    parser.add_argument("data_file", nargs="?", default=INPUT_TXT)
     args = parser.parse_args()
     with open(args.data_file) as f, timing():
         print(compute(f.read(), 80))
@@ -34,5 +34,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

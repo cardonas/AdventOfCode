@@ -7,25 +7,25 @@ from typing import NamedTuple, Optional, Union
 import pytest
 from support import timing
 
-INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
+INPUT_TXT = Path(__file__).parent.joinpath("input.txt")
 
-direction = namedtuple("direction", ['direction', 'amount'])
+direction = namedtuple("direction", ["direction", "amount"])
 
 
 def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
     forward_distance, depth, aim = 0, 0, 0
     if testing:
-        numbers = [direction(*line.split(' ')) for line in s]
+        numbers = [direction(*line.split(" ")) for line in s]
     else:
-        numbers = [direction(*line.split(' ')) for line in s.splitlines()]
+        numbers = [direction(*line.split(" ")) for line in s.splitlines()]
     for number in numbers:
         distance = int(number.amount)
-        if number.direction == 'down':
+        if number.direction == "down":
             aim += distance
-        elif number.direction == 'forward':
+        elif number.direction == "forward":
             forward_distance += distance
             depth += distance * aim
-        elif number.direction == 'up':
+        elif number.direction == "up":
             aim -= distance
     return forward_distance * depth
 
@@ -48,7 +48,7 @@ def test(input_data) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('data_file', nargs='?', default=INPUT_TXT)
+    parser.add_argument("data_file", nargs="?", default=INPUT_TXT)
     args = parser.parse_args()
     with open(args.data_file) as f, timing():
         print(compute(f.read()))
@@ -56,5 +56,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

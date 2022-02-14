@@ -7,8 +7,8 @@ from typing import List, Optional, Union
 import pytest
 from support import timing
 
-INPUT_TXT = Path(__file__).parent.joinpath('input.txt')
-Point = namedtuple('Point', ['x', 'y'])
+INPUT_TXT = Path(__file__).parent.joinpath("input.txt")
+Point = namedtuple("Point", ["x", "y"])
 
 
 def join_lists(coordinates):
@@ -20,7 +20,9 @@ def join_lists(coordinates):
 
 def compute(s: Union[list[str], str], testing: Optional[bool] = None) -> int:
     lines = s if testing and type(s) == list[s] else s.splitlines()
-    coordinates = [[Point(*point.split(',')) for point in line.split(' -> ')] for line in lines]
+    coordinates = [
+        [Point(*point.split(",")) for point in line.split(" -> ")] for line in lines
+    ]
     updated_coordinates = get_missing_points(coordinates)
     joined_lists = join_lists(updated_coordinates)
     count = Counter(joined_lists)
@@ -52,7 +54,7 @@ def test(input_data) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument('data_file', nargs='?', default=INPUT_TXT)
+    parser.add_argument("data_file", nargs="?", default=INPUT_TXT)
     args = parser.parse_args()
     with open(args.data_file) as f, timing():
         print(compute(f.read()))
@@ -60,5 +62,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())
